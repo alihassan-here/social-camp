@@ -4,7 +4,7 @@ const Nav = () => {
     return (
         <nav className="nav bg-dark d-flex justify-content-end">
             <Link href="/">
-                <a className="nav-link text-light">Home</a>
+                <a className="nav-link text-light logo">$OCIALCAMP</a>
             </Link>
             <Link href="/login">
                 <a className="nav-link text-light">Login</a>
