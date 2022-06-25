@@ -16,6 +16,7 @@ mongoose.connect(process.env.MONGOURI)
 //MIDDLEWARES
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan('tiny'));
 app.use(cors({
     origin: ["http://localhost:3000"],
 }));

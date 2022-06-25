@@ -13,3 +13,7 @@
     width: 100% !important;
     margin: 0 auto !important;
 }
+
+.active {
+    background-color: rgb(128, 128, 253)
+}

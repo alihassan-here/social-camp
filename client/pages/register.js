@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import Link from "next/link";
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { Modal } from "antd";
 import AuthForm from "../components/forms/AuthForm";
+import { UserContext } from '../context';
+import { useRouter } from "next/router";
 
 
 const Register = () => {
@@ -13,6 +15,9 @@ const Register = () => {
     const [secret, setSecret] = useState("");
     const [ok, setOk] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const router = useRouter();
+    const [state, setState] = useContext(UserContext);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -35,6 +40,8 @@ const Register = () => {
             setLoading(false);
         }
     }
+
+    if (state && state.token) router.push("/")
 
     return (
         <div className="container-fluid">
@@ -75,6 +82,13 @@ const Register = () => {
                             <a className="btn btn-primary btn-sm">Login</a>
                         </Link>
                     </Modal>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col">
+                    <p className="text-center">Already registered? <Link href="/login">
+                        <a>Login</a>
+                    </Link></p>
                 </div>
             </div>
         </div>
