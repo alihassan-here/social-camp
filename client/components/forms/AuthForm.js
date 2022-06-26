@@ -90,9 +90,9 @@ const AuthForm = ({
                 <button
                     disabled={
                         page === "login"
-                            ? !email || !password
+                            ? !email || !password || loading
                             :
-                            !name || !email || !password || !secret}
+                            !name || !email || !password || !secret || loading}
                     type="submit" className="btn btn-primary col-12"
                 >
                     {loading ? <SyncOutlined spin className="py-1" /> : "Submit"}

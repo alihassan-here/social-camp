@@ -3,15 +3,14 @@ import Link from "next/link";
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { Modal } from "antd";
-import AuthForm from "../components/forms/AuthForm";
+import ForgotPasswordForm from "../components/forms/ForgotPasswordForm";
 import { UserContext } from '../context';
 import { useRouter } from "next/router";
 
 
-const Register = () => {
-    const [name, setName] = useState("");
+const ForgotPassword = () => {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
     const [secret, setSecret] = useState("");
     const [ok, setOk] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -23,24 +22,16 @@ const Register = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            const { data } = await axios.post(`/register`, {
-                name,
+            const { data } = await axios.post(`/forgot-password`, {
                 email,
-                password,
+                newPassword,
                 secret
             });
-
-            if (data.error) {
-                toast.error(data.error);
-                setLoading(false);
-            } else {
-                setOk(data.ok);
-                setLoading(false);
-                setName("");
-                setEmail("");
-                setPassword("");
-                setSecret("");
-            }
+            setOk(data.ok);
+            setLoading(false);
+            setEmail("");
+            setNewPassword("");
+            setSecret("");
         } catch (error) {
             toast.error(error.response.data);
             setLoading(false);
@@ -53,21 +44,19 @@ const Register = () => {
         <div className="container-fluid">
             <div className="row py-5 text-light bg-default-image">
                 <div className="text-center">
-                    <h1>Register</h1>
+                    <h1>Forgot Password</h1>
                 </div>
             </div>
 
             <div className="row py-5">
                 <div className="col-12 col-md-6 offset-md-3">
 
-                    <AuthForm
+                    <ForgotPasswordForm
                         handleSubmit={handleSubmit}
-                        name={name}
-                        setName={setName}
                         email={email}
                         setEmail={setEmail}
-                        password={password}
-                        setPassword={setPassword}
+                        newPassword={newPassword}
+                        setNewPassword={setNewPassword}
                         secret={secret}
                         setSecret={setSecret}
                         loading={loading}
@@ -83,22 +72,15 @@ const Register = () => {
                         onCancel={() => setOk(false)}
                         footer={null}
                     >
-                        <p>You have successfully registered.</p>
+                        <p>Congrats! You can now login with your new password.</p>
                         <Link href="/login">
                             <a className="btn btn-primary btn-sm">Login</a>
                         </Link>
                     </Modal>
                 </div>
             </div>
-            <div className="row">
-                <div className="col">
-                    <p className="text-center">Already registered? <Link href="/login">
-                        <a>Login</a>
-                    </Link></p>
-                </div>
-            </div>
         </div>
     )
 }
 
-export default Register;
+export default ForgotPassword;
