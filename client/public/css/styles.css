@@ -17,3 +17,23 @@
 .active {
     background-color: rgb(128, 128, 253)
 }
+
+.ql-container {
+    min-height: 20rem;
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #fefcfc;
+}
+
+.ql-editor {
+    height: 100%;
+    flex: 1;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.card-footer label {
+    cursor: pointer;
+}
