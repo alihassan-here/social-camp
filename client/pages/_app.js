@@ -14,7 +14,10 @@ function MyApp({ Component, pageProps }) {
             </Head>
 
             <Nav />
-            <ToastContainer position="top-center" />
+            <ToastContainer
+                position="top-center"
+                theme="colored"
+            />
             <Component {...pageProps} />
         </UserProvider>
     )

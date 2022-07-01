@@ -8,7 +8,8 @@ import {
     uploadImage,
     postsByUser,
     userPost,
-    updatePost
+    updatePost,
+    deletePost,
 } from "../controllers/post";
 import { requireSignIn, canEditDeletePost } from '../middlewares';
 
@@ -30,6 +31,9 @@ router.get("/user-post/:_id", requireSignIn, userPost);
 
 //UPDATE POST
 router.put("/update-post/:_id", requireSignIn, canEditDeletePost, updatePost);
+
+//DELETE POST
+router.delete("/delete-post/:_id", requireSignIn, canEditDeletePost, deletePost);
 
 
 module.exports = router;

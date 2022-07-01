@@ -13,7 +13,7 @@ import {
 import PostImage from '../images/PostImage';
 import { UserContext } from "../../context";
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, handleDelete }) => {
 
     const [state] = useContext(UserContext);
     const router = useRouter();
@@ -48,7 +48,9 @@ const PostList = ({ posts }) => {
                                     <EditOutlined
                                         onClick={() => router.push(`/user/post/${post._id}`)}
                                         className="text-danger pt-2 h5 px-2 mx-auto" />
-                                    <DeleteOutlined className="text-danger pt-2 h5 px-2" />
+                                    <DeleteOutlined
+                                        onClick={() => handleDelete(post)}
+                                        className="text-danger pt-2 h5 px-2" />
                                 </>
                             )
                         }

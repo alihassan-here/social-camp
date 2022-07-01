@@ -24,7 +24,6 @@ const Dashboard = () => {
         try {
             const { data } = await axios.get("/user-posts");
             setPosts(data);
-            console.log(data);
         } catch (error) {
             console.log(error);
         }
@@ -67,6 +66,18 @@ const Dashboard = () => {
         }
     }
 
+    const handleDelete = async post => {
+        try {
+            const answer = window.confirm("Are you sure?");
+            if (!answer) return;
+            const { data } = await axios.delete(`/delete-post/${post._id}`);
+            toast.error("Post deleted!");
+            fetchUserPosts();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <UserRoute>
             <div className="container-fluid">
@@ -86,7 +97,10 @@ const Dashboard = () => {
                         uploading={uploading}
                         image={image}
                     />
-                    <PostList posts={posts} />
+                    <PostList
+                        posts={posts}
+                        handleDelete={handleDelete}
+                    />
                 </div>
                 <div className="col-md-4">Sidebar</div>
             </div>
