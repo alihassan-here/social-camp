@@ -1,3 +1,10 @@
+*,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .bg-default-image {
     background-image: url("/images/default.jpg");
     background-size: 100%;
