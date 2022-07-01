@@ -50,3 +50,25 @@ export const postsByUser = async (req, res) => {
         console.log(error);
     }
 }
+
+export const userPost = async (req, res) => {
+    try {
+        const { _id } = req.params;
+        const post = await Post.findById(_id);
+        res.json(post);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const updatePost = async (req, res) => {
+    try {
+        const { _id } = req.params;
+        const post = await Post.findByIdAndUpdate(_id, req.body, {
+            new: true
+        });
+        res.json(post);
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -6,9 +6,11 @@ const router = express.Router();
 import {
     createPost,
     uploadImage,
-    postsByUser
+    postsByUser,
+    userPost,
+    updatePost
 } from "../controllers/post";
-import { requireSignIn } from '../middlewares';
+import { requireSignIn, canEditDeletePost } from '../middlewares';
 
 router.post("/create-post"
     , requireSignIn
@@ -21,7 +23,13 @@ router.post(
     uploadImage
 );
 
+//GET ALL POSTS
 router.get("/user-posts", requireSignIn, postsByUser);
+//GET SINGLE POST
+router.get("/user-post/:_id", requireSignIn, userPost);
+
+//UPDATE POST
+router.put("/update-post/:_id", requireSignIn, canEditDeletePost, updatePost);
 
 
 module.exports = router;
