@@ -41,6 +41,6 @@ body {
     width: 100%;
 }
 
-.card-footer label {
+.upload-icon {
     cursor: pointer;
 }

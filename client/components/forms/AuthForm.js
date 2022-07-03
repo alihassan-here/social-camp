@@ -3,6 +3,7 @@ import { SyncOutlined } from "@ant-design/icons";
 const AuthForm = ({
     handleSubmit,
     name,
+    username,
     setName,
     email,
     setEmail,
@@ -10,8 +11,11 @@ const AuthForm = ({
     setPassword,
     secret,
     setSecret,
+    about,
+    setAbout,
     loading,
-    page
+    page,
+    profileUpdate
 }) => {
     return (
         <form onSubmit={handleSubmit}>
@@ -19,9 +23,9 @@ const AuthForm = ({
                 page !== "login" && (
                     <div className="form-group p-2">
                         <small>
-                            <label className="text-muted">
+                            <h6 className="text-muted">
                                 Your name
-                            </label>
+                            </h6>
                         </small>
                         <input
                             value={name}
@@ -32,24 +36,41 @@ const AuthForm = ({
                     </div>
                 )
             }
+            {
+                profileUpdate && (
+                    <div className="form-group p-2">
+                        <small>
+                            <h6 className="text-muted">
+                                username
+                            </h6>
+                        </small>
+                        <input
+                            readOnly={true}
+                            defaultValue={username}
+                            type="text" className="form-control"
+                        />
+                    </div>
+                )
+            }
             <div className="form-group p-2">
                 <small>
-                    <label className="text-muted">
+                    <h6 className="text-muted">
                         Email address
-                    </label>
+                    </h6>
                 </small>
                 <input
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     type="email" className="form-control"
                     placeholder="Enter email"
+                    readOnly={profileUpdate}
                 />
             </div>
             <div className="form-group p-2">
                 <small>
-                    <label className="text-muted">
+                    <h6 className="text-muted">
                         Password
-                    </label>
+                    </h6>
                 </small>
                 <input
                     value={password}
@@ -63,7 +84,7 @@ const AuthForm = ({
                     <>
                         <div className="form-group p-2">
                             <small>
-                                <label className="text-muted">Pick a question</label>
+                                <h6 className="text-muted">Pick a question</h6>
                             </small>
                             <select className="form-control">
                                 <option>What is your favourite color?</option>
@@ -86,13 +107,31 @@ const AuthForm = ({
                     </>
                 )
             }
+            {
+                profileUpdate && <div className="form-group p-2">
+                    <small>
+                        <h6 className="text-muted">
+                            About
+                        </h6>
+                    </small>
+                    <textarea
+                        rows={5}
+                        value={about}
+                        onChange={e => setAbout(e.target.value)}
+                        type="text" className="form-control"
+                        placeholder="Write about yourself"
+                    />
+                </div>
+            }
             <div className="form-group p-2">
                 <button
                     disabled={
-                        page === "login"
-                            ? !email || !password || loading
-                            :
-                            !name || !email || !password || !secret || loading}
+                        profileUpdate
+                            ? loading :
+                            page === "login"
+                                ? !email || !password || loading
+                                :
+                                !name || !email || !password || !secret || loading}
                     type="submit" className="btn btn-primary col-12"
                 >
                     {loading ? <SyncOutlined spin className="py-1" /> : "Submit"}

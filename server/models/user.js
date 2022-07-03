@@ -23,9 +23,18 @@ const userSchema = new mongoose.Schema({
     secret: {
         type: String,
         required: true,
+        lowercase: true,
+    },
+    username: {
+        type: String,
+        required: true,
+        unique: true,
     },
     about: {},
-    photo: String,
+    image: {
+        url: String,
+        public_id: String
+    },
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 }, {

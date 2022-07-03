@@ -1,6 +1,8 @@
 import User from "../models/user";
 import { hashPassword, comparePassword } from "../helpers/auth";
 import jwt from "jsonwebtoken";
+import { generateFromEmail, generateUsername } from "unique-username-generator";
+
 
 export const register = async (req, res) => {
     const { name, email, password, secret } = req.body;
@@ -22,7 +24,19 @@ export const register = async (req, res) => {
     //HASH PASSWORD
     const hashedPassword = await hashPassword(password);
 
-    const user = new User({ name, email, password: hashedPassword, secret });
+    //GENEREAE RANDOM USERNAME
+    const username = generateFromEmail(
+        email,
+        3
+    );
+
+    const user = new User({
+        name,
+        email,
+        password: hashedPassword,
+        secret,
+        username,
+    });
 
     try {
         await user.save();
@@ -115,5 +129,40 @@ export const forgotPassword = async (req, res) => {
         res.json({
             error: "Something went wrong, Try again"
         });
+    }
+}
+
+export const profileUpdate = async (req, res) => {
+    try {
+        const { name, password, secret, about, image } = req.body;
+        const data = {};
+        if (name) {
+            data.name = name;
+        }
+        if (password) {
+            if (password.length < 6) {
+                return res.json({ error: "Password is required and must be at least 6 characters long" });
+            } else {
+                data.password = await hashPassword(password);
+            }
+        }
+        if (secret) {
+            data.secret = secret;
+        }
+        if (about) {
+            data.about = about;
+        }
+        if (image) {
+            data.image = image;
+        }
+
+        let user = await User.findByIdAndUpdate(req.auth._id, data, { new: true });
+
+        user.password = undefined;
+        user.secret = undefined;
+
+        res.json(user);
+    } catch (error) {
+        console.log(error);
     }
 }

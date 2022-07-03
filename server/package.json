@@ -22,6 +22,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.0",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.18"
+    "nanoid": "^4.0.0",
+    "nodemon": "^2.0.18",
+    "unique-username-generator": "^1.1.1"
   }
 }
