@@ -4,16 +4,11 @@ import moment from 'moment';
 import { useRouter } from "next/router";
 import { UserContext } from "../../context";
 import { UserOutlined } from '@ant-design/icons';
+import { imageSource } from '../../helpers';
 
 const People = ({ people, handleFollow }) => {
     const [state, setState] = useContext(UserContext);
     const router = useRouter();
-
-
-    const imageSource = user => {
-        if (user.image) return user.image.url;
-        return "/images/avatar1.png";
-    }
 
 
     return (

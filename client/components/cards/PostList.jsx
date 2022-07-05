@@ -9,11 +9,12 @@ import {
     CommentOutlined,
     EditOutlined,
     DeleteOutlined
-} from "@ant-design/icons"
+} from "@ant-design/icons";
 import PostImage from '../images/PostImage';
 import { UserContext } from "../../context";
+import { imageSource } from "../../helpers";
 
-const PostList = ({ posts, handleDelete }) => {
+const PostList = ({ posts, handleDelete, handleLike, handleUnlike }) => {
 
     const [state] = useContext(UserContext);
     const router = useRouter();
@@ -21,10 +22,10 @@ const PostList = ({ posts, handleDelete }) => {
         {
             posts && posts.map(post => <div key={post._id} className="card mb-5">
                 <div className="card-header">
-                    <Avatar size={40}>
-                        {post.postedBy.name[0]}</Avatar>{" "}
-                    <span className="pt-2 ml-3">
-                        {post.postedBy.name}
+                    <Avatar size={40} src={imageSource(post.postedBy)} />
+                    {" "}
+                    <span className="pt-2 mx-1">
+                        <b>{post.postedBy.name}</b>
                     </span>
                     <span className="pt-2" style={{ margin: "1rem" }}>
                         {moment(post.createdAt).fromNow()}
@@ -38,8 +39,23 @@ const PostList = ({ posts, handleDelete }) => {
                         post.image && <PostImage url={post.image.url} />
                     }
                     <div className="d-flex pt-2">
-                        <HeartOutlined className="text-danger pt-2 h5 px-2" />
-                        <div className="pt-2 px-2" >3 likes</div>
+                        {
+                            post.likes.includes(state.user._id) ? (
+                                <HeartFilled
+                                    onClick={() => handleUnlike(post._id)}
+                                    className="text-danger pt-2 h5 px-2"
+                                />
+                            )
+                                : (
+                                    <HeartOutlined
+                                        onClick={
+                                            () => handleLike(post._id)
+                                        }
+                                        className="text-danger pt-2 h5 px-2"
+                                    />
+                                )
+                        }
+                        <div className="pt-2 px-2" >{post.likes.length} likes</div>
                         <CommentOutlined className="text-danger pt-2 h5 px-2" />
                         <div className="pt-2 px-2">2 comments</div>
                         {

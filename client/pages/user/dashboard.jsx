@@ -112,6 +112,24 @@ const Dashboard = () => {
         }
     }
 
+    const handleLike = async _id => {
+        try {
+            const { data } = await axios.put("/like-post", { _id });
+            newsFeed();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handleUnlike = async _id => {
+        try {
+            const { data } = await axios.put("/unlike-post", { _id });
+            newsFeed();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <UserRoute>
             <div className="container-fluid">
@@ -134,6 +152,8 @@ const Dashboard = () => {
                     <PostList
                         posts={posts}
                         handleDelete={handleDelete}
+                        handleLike={handleLike}
+                        handleUnlike={handleUnlike}
                     />
                 </div>
                 <div className="col-md-4">

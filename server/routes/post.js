@@ -11,6 +11,8 @@ import {
     updatePost,
     deletePost,
     newsFeed,
+    likePost,
+    unlikePost
 } from "../controllers/post";
 import { requireSignIn, canEditDeletePost } from '../middlewares';
 
@@ -38,6 +40,13 @@ router.delete("/delete-post/:_id", requireSignIn, canEditDeletePost, deletePost)
 
 //GET POSTS FOR NEWS FEED
 router.get("/news-feed", requireSignIn, newsFeed);
+
+//LIKE POST
+router.put("/like-post", requireSignIn, likePost);
+
+//UNLIKE POST
+router.put("/unlike-post", requireSignIn, unlikePost);
+
 
 
 module.exports = router;
