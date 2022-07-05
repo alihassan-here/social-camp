@@ -3,11 +3,13 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from 'axios';
 import { toast } from "react-toastify";
+import { Modal } from "antd";
 import { UserContext } from "../../context";
 import UserRoute from "../../components/routes/UserRoute";
 import PostForm from '../../components/forms/PostForm';
 import PostList from '../../components/cards/PostList';
 import People from '../../components/cards/People';
+import CommentForm from '../../components/forms/CommentForm';
 
 const Dashboard = () => {
     const [content, setContent] = useState("");
@@ -15,6 +17,9 @@ const Dashboard = () => {
     const [uploading, setUploading] = useState(false);
     const [posts, setPosts] = useState([]);
     const [people, setPeople] = useState([]);
+    const [comment, setComment] = useState("");
+    const [visible, setVisible] = useState(false);
+    const [currentPost, setCurrentPost] = useState({});
 
     const [state, setState] = useContext(UserContext);
     const router = useRouter();
@@ -130,6 +135,30 @@ const Dashboard = () => {
         }
     }
 
+    const handleComment = post => {
+        setCurrentPost(post);
+        setVisible(true);
+    }
+
+    const addComment = async e => {
+        e.preventDefault();
+        try {
+            const { data } = await axios.put("/add-comment", {
+                postId: currentPost._id,
+                comment
+            });
+            setComment("");
+            setVisible(false);
+            newsFeed();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const removeComment = async () => {
+
+    }
+
     return (
         <UserRoute>
             <div className="container-fluid">
@@ -154,6 +183,7 @@ const Dashboard = () => {
                         handleDelete={handleDelete}
                         handleLike={handleLike}
                         handleUnlike={handleUnlike}
+                        handleComment={handleComment}
                     />
                 </div>
                 <div className="col-md-4">
@@ -166,6 +196,17 @@ const Dashboard = () => {
                     }
                     <People people={people} handleFollow={handleFollow} />
                 </div>
+                <Modal
+                    visible={visible}
+                    onCancel={() => setVisible(false)}
+                    title="Comment"
+                    footer={null}
+                >
+
+                    <CommentForm
+                        comment={comment} setComment={setComment} addComment={addComment}
+                    />
+                </Modal>
             </div>
         </UserRoute>
     )

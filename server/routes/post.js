@@ -12,7 +12,9 @@ import {
     deletePost,
     newsFeed,
     likePost,
-    unlikePost
+    unlikePost,
+    addComment,
+    removeComment,
 } from "../controllers/post";
 import { requireSignIn, canEditDeletePost } from '../middlewares';
 
@@ -46,6 +48,12 @@ router.put("/like-post", requireSignIn, likePost);
 
 //UNLIKE POST
 router.put("/unlike-post", requireSignIn, unlikePost);
+
+//ADD COMMENT
+router.put("/add-comment", requireSignIn, addComment);
+
+//REMOVE COMMENT
+router.put("/remove-comment", requireSignIn, removeComment);
 
 
 
