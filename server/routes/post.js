@@ -10,6 +10,7 @@ import {
     userPost,
     updatePost,
     deletePost,
+    newsFeed,
 } from "../controllers/post";
 import { requireSignIn, canEditDeletePost } from '../middlewares';
 
@@ -34,6 +35,9 @@ router.put("/update-post/:_id", requireSignIn, canEditDeletePost, updatePost);
 
 //DELETE POST
 router.delete("/delete-post/:_id", requireSignIn, canEditDeletePost, deletePost);
+
+//GET POSTS FOR NEWS FEED
+router.get("/news-feed", requireSignIn, newsFeed);
 
 
 module.exports = router;

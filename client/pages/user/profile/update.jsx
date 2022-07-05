@@ -100,7 +100,7 @@ const ProfileUpdate = () => {
             <div className="row py-5">
                 <div className="col-12 col-md-6 offset-md-3">
 
-                    <label className="d-flex justify-content-center upload-icon">
+                    <label className="d-flex justify-content-center pointer">
                         {
                             image && image.url ? (
                                 <Avatar

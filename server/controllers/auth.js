@@ -166,3 +166,85 @@ export const profileUpdate = async (req, res) => {
         console.log(error);
     }
 }
+
+export const findPeople = async (req, res) => {
+    try {
+        const user = await User.findById(req.auth._id);
+        //first get all following of user
+        let following = user.following;
+        //put yourself  into this array
+        following.push(user._id);
+        //find all people for suggestion except those who you are following
+        const people = await User.find(
+            { _id: { $nin: following } }
+        )
+            .select("-password -secret")
+            .limit(10);
+        res.json(people);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//middleware
+export const addFollower = async (req, res, next) => {
+    try {
+        const user = await User.findByIdAndUpdate(req.body._id, {
+            $addToSet: { followers: req.auth._id },
+        });
+        next();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const userFollow = async (req, res) => {
+    try {
+        const user = await User.findByIdAndUpdate(
+            req.auth._id,
+            {
+                $addToSet: { following: req.body._id },
+            },
+            { new: true }
+        ).select("-password -secret");
+        res.json(user);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const userFollowing = async (req, res) => {
+    try {
+        const user = await User.findById(req.auth._id);
+        const following = await User.find({ _id: user.following })
+            .limit(100);
+        res.json(following);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//MIDDLEWARE
+export const removeFollower = async (req, res, next) => {
+    try {
+        const user = await User.findByIdAndUpdate(req.body._id, {
+            $pull: { followers: req.auth._id },
+        });
+        next();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const userUnfollow = async (req, res) => {
+    try {
+        const user = await User.findByIdAndUpdate(req.auth._id, {
+            $pull: { following: req.body._id }
+        }, {
+            new: true
+        });
+        res.json(user);
+    } catch (error) {
+        console.log(error);
+    }
+}

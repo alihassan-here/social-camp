@@ -50,7 +50,7 @@ const PostForm = ({ content, setContent, postSubmit, handleImage, uploading, ima
                 >
                     Post
                 </button>
-                <label className="upload-icon">
+                <label className="pointer">
                     {
                         image && image.url ? (
                             <Avatar size={30} src={image.url} />

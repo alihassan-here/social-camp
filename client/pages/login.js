@@ -31,7 +31,7 @@ const Login = () => {
                     token: data.token,
                 });
                 localStorage.setItem("auth", JSON.stringify(data));
-                router.push("/");
+                router.push("/user/dashboard");
             }
         } catch (error) {
             console.log(error);
