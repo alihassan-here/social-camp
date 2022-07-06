@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from 'axios';
 import { toast } from "react-toastify";
-import { Modal } from "antd";
+import { Modal, Pagination } from "antd";
 import { UserContext } from "../../context";
 import UserRoute from "../../components/routes/UserRoute";
 import PostForm from '../../components/forms/PostForm';
@@ -20,6 +20,10 @@ const Dashboard = () => {
     const [comment, setComment] = useState("");
     const [visible, setVisible] = useState(false);
     const [currentPost, setCurrentPost] = useState({});
+    //PAGINATION
+    const [totalPosts, setTotalPosts] = useState(0);
+    const [page, setPage] = useState(1);
+
 
     const [state, setState] = useContext(UserContext);
     const router = useRouter();
@@ -29,11 +33,19 @@ const Dashboard = () => {
             newsFeed();
             findPeople();
         }
-    }, [state && state.token]);
+    }, [state && state.token, page]);
+
+    useEffect(() => {
+        try {
+            axios.get("/total-posts").then(({ data }) => setTotalPosts(data));
+        } catch (error) {
+            console.log(error);
+        }
+    }, []);
 
     const newsFeed = async () => {
         try {
-            const { data } = await axios.get("/news-feed");
+            const { data } = await axios.get(`/news-feed/${page}`);
             setPosts(data);
         } catch (error) {
             console.log(error);
@@ -56,6 +68,7 @@ const Dashboard = () => {
             if (data.error) {
                 toast.error(data.error);
             } else {
+                setPage(1);
                 newsFeed();
                 toast.success("Post created!");
                 setContent("");
@@ -155,8 +168,18 @@ const Dashboard = () => {
         }
     }
 
-    const removeComment = async () => {
-
+    const removeComment = async (postId, comment) => {
+        let answer = window.confirm("Are you sure you want to remove");
+        if (!answer) return;
+        try {
+            const { data } = await axios.put("/remove-comment", {
+                postId,
+                comment
+            });
+            newsFeed();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -184,6 +207,12 @@ const Dashboard = () => {
                         handleLike={handleLike}
                         handleUnlike={handleUnlike}
                         handleComment={handleComment}
+                        removeComment={removeComment}
+                    />
+                    <Pagination
+                        current={page}
+                        total={(totalPosts / 3) * 10}
+                        onChange={value => setPage(value)}
                     />
                 </div>
                 <div className="col-md-4">

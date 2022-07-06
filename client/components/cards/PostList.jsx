@@ -22,7 +22,8 @@ const PostList = ({
     handleDelete,
     handleLike,
     handleUnlike,
-    handleComment
+    handleComment,
+    removeComment,
 }) => {
 
     const [state] = useContext(UserContext);
@@ -31,11 +32,13 @@ const PostList = ({
         {
             posts && posts.map(post => (
                 <Post
+                    key={post._id}
                     post={post}
                     handleLike={handleLike}
                     handleUnlike={handleUnlike}
                     handleComment={handleComment}
                     handleDelete={handleDelete}
+                    removeComment={removeComment}
                 />
             )
             )

@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import { readdirSync } from "fs";
+import colors from 'colors';
 
 
 const morgan = require('morgan');
@@ -11,13 +12,13 @@ const app = express();
 
 //DB
 mongoose.connect(process.env.MONGOURI)
-    .then(() => console.log("DB CONNCECTED"))
+    .then(() => console.log("DB CONNCECTED".green.bold))
     .catch(err => console.log("DB CONNECTION ERROR=>", err));
 
 //MIDDLEWARES
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan('tiny'));
+app.use(morgan('dev'));
 app.use(cors({
     origin: ["http://localhost:3000"],
 }));
@@ -28,4 +29,4 @@ readdirSync('./routes').map(r => app.use('/api', require(`./routes/${r}`)));
 
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`SERVER IS RUNNING ON PORT ${PORT}`));
+app.listen(PORT, () => console.log(`SERVER IS RUNNING ON PORT ${PORT}`.yellow.bold));

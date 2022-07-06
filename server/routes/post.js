@@ -15,6 +15,7 @@ import {
     unlikePost,
     addComment,
     removeComment,
+    totalPosts
 } from "../controllers/post";
 import { requireSignIn, canEditDeletePost } from '../middlewares';
 
@@ -41,7 +42,7 @@ router.put("/update-post/:_id", requireSignIn, canEditDeletePost, updatePost);
 router.delete("/delete-post/:_id", requireSignIn, canEditDeletePost, deletePost);
 
 //GET POSTS FOR NEWS FEED
-router.get("/news-feed", requireSignIn, newsFeed);
+router.get("/news-feed/:page", requireSignIn, newsFeed);
 
 //LIKE POST
 router.put("/like-post", requireSignIn, likePost);
@@ -54,6 +55,9 @@ router.put("/add-comment", requireSignIn, addComment);
 
 //REMOVE COMMENT
 router.put("/remove-comment", requireSignIn, removeComment);
+
+//GET TOTAL POSTS
+router.get("/total-posts", totalPosts);
 
 
 
