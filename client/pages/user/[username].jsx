@@ -38,7 +38,7 @@ const Username = () => {
     return (
         <div className="row col-md-6 offset-md-3">
             <div className="pt-5 pb-5">
-                <Card hoverable cover={
+                <Card size="small" hoverable cover={
                     <img src={imageSource(user)} alt={user.name} />
                 }
                 >

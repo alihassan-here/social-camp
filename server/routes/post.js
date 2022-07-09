@@ -15,7 +15,8 @@ import {
     unlikePost,
     addComment,
     removeComment,
-    totalPosts
+    totalPosts,
+    posts
 } from "../controllers/post";
 import { requireSignIn, canEditDeletePost } from '../middlewares';
 
@@ -58,6 +59,9 @@ router.put("/remove-comment", requireSignIn, removeComment);
 
 //GET TOTAL POSTS
 router.get("/total-posts", totalPosts);
+
+//GET ALL POSTS
+router.get("/posts", posts);
 
 
 
