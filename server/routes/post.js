@@ -16,7 +16,8 @@ import {
     addComment,
     removeComment,
     totalPosts,
-    posts
+    posts,
+    getSinglePost
 } from "../controllers/post";
 import { requireSignIn, canEditDeletePost } from '../middlewares';
 
@@ -63,6 +64,8 @@ router.get("/total-posts", totalPosts);
 //GET ALL POSTS
 router.get("/posts", posts);
 
+//GET SINGLE POST
+router.get("/post/:_id", getSinglePost);
 
 
 module.exports = router;

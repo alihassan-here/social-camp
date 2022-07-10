@@ -2,8 +2,9 @@ import axios from "axios";
 import { useContext } from "react";
 import ParallaxBg from '../components/cards/ParallaxBG';
 import { UserContext } from '../context';
-import Post from "../components/cards/Post";
+import PostPublic from "../components/cards/PostPublic";
 import Head from "next/head";
+import Link from "next/link";
 
 const Home = ({ posts }) => {
     const [state, setState] = useContext(UserContext);
@@ -48,9 +49,15 @@ const Home = ({ posts }) => {
                 <div className="row pt-5">
                     {
                         posts.map((post) => (
-                            <div
-                                key={post._id} className="col-md-4">
-                                <Post key={post._id} post={post} />
+                            <div className="col-md-4">
+                                <Link
+                                    href={`/view/${post._id}`}
+                                    key={post._id}
+                                >
+                                    <a>
+                                        <PostPublic post={post} />
+                                    </a>
+                                </Link>
                             </div>
                         ))
                     }
