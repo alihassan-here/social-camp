@@ -189,7 +189,7 @@ export const totalPosts = async (req, res) => {
 
 export const posts = async (req, res) => {
     try {
-        const posts = await Post.find()
+        const posts = await Post.find({})
             .populate("postedBy", "_id name image")
             .populate("comments.postedBy", "_id name image")
             .sort({ createdAt: -1 })

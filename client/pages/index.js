@@ -48,11 +48,10 @@ const Home = ({ posts }) => {
             <div className="container">
                 <div className="row pt-5">
                     {
-                        posts.map((post) => (
-                            <div className="col-md-4">
+                        posts && posts.map((post) => (
+                            <div className="col-md-4" key={post._id}>
                                 <Link
                                     href={`/view/${post._id}`}
-                                    key={post._id}
                                 >
                                     <a>
                                         <PostPublic post={post} />
