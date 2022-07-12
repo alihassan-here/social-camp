@@ -182,13 +182,6 @@ const ProfileUpdate = () => {
                     </Modal>
                 </div>
             </div>
-            <div className="row">
-                <div className="col">
-                    <p className="text-center">Already registered? <Link href="/login">
-                        <a>Login</a>
-                    </Link></p>
-                </div>
-            </div>
         </div>
     )
 }

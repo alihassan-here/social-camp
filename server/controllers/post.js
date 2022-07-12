@@ -19,7 +19,15 @@ export const createPost = async (req, res) => {
     try {
         const post = new Post({ content, image, postedBy: req.auth._id });
         await post.save();
-        res.json(post);
+
+        const postWithUser = await Post.findById(post._id)
+            .populate(
+                "postedBy",
+                "-password -secret"
+            )
+
+
+        res.json(postWithUser);
 
     } catch (error) {
         console.log(error);
@@ -189,7 +197,7 @@ export const totalPosts = async (req, res) => {
 
 export const posts = async (req, res) => {
     try {
-        const posts = await Post.find({})
+        const posts = await Post.find()
             .populate("postedBy", "_id name image")
             .populate("comments.postedBy", "_id name image")
             .sort({ createdAt: -1 })

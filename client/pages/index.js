@@ -1,13 +1,30 @@
 import axios from "axios";
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import ParallaxBg from '../components/cards/ParallaxBG';
 import { UserContext } from '../context';
 import PostPublic from "../components/cards/PostPublic";
 import Head from "next/head";
 import Link from "next/link";
+import io from 'socket.io-client';
+
+
+const socket = io(process.env.NEXT_PUBLIC_SOCKETIO, {
+    reconnection: true,
+});
 
 const Home = ({ posts }) => {
     const [state, setState] = useContext(UserContext);
+    const [newFeed, setNewFeed] = useState([]);
+
+
+    useEffect(() => {
+        socket.on("new-post", newPost => {
+            setNewFeed([newPost, ...posts]);
+        })
+
+    }, []);
+
+    const collection = newFeed.length > 0 ? newFeed : posts;
 
 
     const head = () => {
@@ -48,7 +65,7 @@ const Home = ({ posts }) => {
             <div className="container">
                 <div className="row pt-5">
                     {
-                        posts && posts.map((post) => (
+                        collection && collection.map((post) => (
                             <div className="col-md-4" key={post._id}>
                                 <Link
                                     href={`/view/${post._id}`}
@@ -66,12 +83,22 @@ const Home = ({ posts }) => {
     )
 }
 
-export async function getServerSideProps() {
-    const { data } = await axios.get("/posts");
-    return {
-        props: {
-            posts: data,
+export const getServerSideProps = async ({
+    params,
+    res
+}) => {
+    try {
+        const { data } = await axios.get("/posts");
+        return {
+            props: {
+                posts: data,
+            }
         }
+    } catch (error) {
+        res.statusCode = 404;
+        return {
+            props: {}
+        };
     }
 }
 

@@ -11,6 +11,12 @@ import PostList from '../../components/cards/PostList';
 import People from '../../components/cards/People';
 import CommentForm from '../../components/forms/CommentForm';
 import Search from "../../components/Search";
+import io from 'socket.io-client';
+
+
+const socket = io(process.env.NEXT_PUBLIC_SOCKETIO, {
+    reconnection: true,
+});
 
 const Dashboard = () => {
     const [content, setContent] = useState("");
@@ -73,7 +79,9 @@ const Dashboard = () => {
                 newsFeed();
                 toast.success("Post created!");
                 setContent("");
-                setImage({})
+                setImage({});
+                //SOCKET
+                socket.emit("new-post", data);
             }
 
         } catch (error) {
