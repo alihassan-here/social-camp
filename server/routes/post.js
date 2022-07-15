@@ -19,7 +19,7 @@ import {
     posts,
     getSinglePost
 } from "../controllers/post";
-import { requireSignIn, canEditDeletePost } from '../middlewares';
+import { requireSignIn, canEditDeletePost, isAdmin } from '../middlewares';
 
 router.post("/create-post"
     , requireSignIn
@@ -66,6 +66,14 @@ router.get("/posts", posts);
 
 //GET SINGLE POST
 router.get("/post/:_id", getSinglePost);
+
+//DELETE POST BY ADMIN
+router.delete(
+    "/admin/delete-post/:_id",
+    requireSignIn,
+    isAdmin,
+    deletePost
+);
 
 
 module.exports = router;

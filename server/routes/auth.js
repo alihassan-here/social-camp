@@ -17,7 +17,7 @@ import {
     searchUser,
     getUser
 } from "../controllers/auth";
-import { requireSignIn } from '../middlewares';
+import { isAdmin, requireSignIn } from '../middlewares';
 
 router.post("/register", register);
 router.post("/login", login);
@@ -30,5 +30,7 @@ router.put("/user-unfollow", requireSignIn, removeFollower, userUnfollow);
 router.get("/user-following", requireSignIn, userFollowing);
 router.get("/search-user/:query", searchUser);
 router.get("/user/:username", getUser);
+
+router.get("/current-admin", requireSignIn, isAdmin, currentUser);
 
 module.exports = router;
